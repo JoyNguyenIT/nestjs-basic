@@ -5,7 +5,7 @@ import { UpdateCompanyDto } from './dto/update-company.dto';
 import { JwtAuthGuard } from 'src/auth/passport/jwt-auth.guard';
 import { User } from 'src/auth/decorators/user.decorator';
 import { IUser } from 'src/users/users.interface';
-import { ResponseMessage } from 'src/auth/decorators/public.decorator';
+import { Public, ResponseMessage } from 'src/auth/decorators/public.decorator';
 
 @Controller('companies')
 export class CompaniesController {
@@ -17,7 +17,7 @@ export class CompaniesController {
     return this.companiesService.create(createCompanyDto, user);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Public()
   @Get()
   @ResponseMessage('Get list company with paginate success!')
   findAll(
@@ -28,9 +28,10 @@ export class CompaniesController {
     return this.companiesService.findAll(+page, +limit, queryString);
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.companiesService.findOne(+id);
+    return this.companiesService.findOne(id);
   }
 
   @UseGuards(JwtAuthGuard)

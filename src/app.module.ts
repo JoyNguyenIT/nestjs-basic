@@ -7,10 +7,18 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 import { CompaniesModule } from './companies/companies.module';
-
+import { JobsModule } from './jobs/jobs.module';
+import { FilesModule } from './files/files.module';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { ResumesModule } from './resumes/resumes.module';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(process.cwd(), 'public'), // ✅ trỏ đúng thư mục public
+      serveRoot: '/public', // ✅ truy cập qua /public/*
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -25,9 +33,13 @@ import { CompaniesModule } from './companies/companies.module';
         },
       })
     }),
+
     UsersModule,
     AuthModule,
-    CompaniesModule
+    CompaniesModule,
+    JobsModule,
+    FilesModule,
+    ResumesModule
     // 👆 kết nối tới MongoDB (chạy bằng docker chẳng hạn)
   ],
   controllers: [AppController],

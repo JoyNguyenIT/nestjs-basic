@@ -16,6 +16,9 @@ export class Company {
     @Prop()
     description: string
 
+    @Prop()
+    logo: string
+
     @Prop({ type: Types.ObjectId, ref: User.name })
     createdBy: Types.ObjectId;
 

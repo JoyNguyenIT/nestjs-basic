@@ -12,9 +12,9 @@ export class CompaniesService {
   constructor(@InjectModel(Company.name) private companyModel: SoftDeleteModel<CompanyDocument>) { }
 
   async create(createCompanyDto: CreateCompanyDto, user: IUser) {
-    const { name, address, description } = createCompanyDto
+    const { name, address, description, logo } = createCompanyDto
     const company = await this.companyModel.create({
-      name, address, description,
+      name, address, description, logo,
       createdBy: {
         _id: user._id,
         email: user.email
@@ -49,8 +49,8 @@ export class CompaniesService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} company`;
+  findOne(id: string) {
+    return this.companyModel.findById({ _id: id });
   }
 
   async update(updateCompanyDto: UpdateCompanyDto, user: IUser) {

@@ -9,10 +9,13 @@ import mongoose from 'mongoose';
 import MongooseDelete from 'mongoose-delete';
 import { TransformInterceptor } from './core/transform.interceptor';
 import * as cookieParser from 'cookie-parser';
+import * as fs from 'fs';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.useStaticAssets(join(__dirname, '../src', 'public'));
+  const staticPath = join(process.cwd(), 'public');
+  console.log('🧩 Static path:', staticPath, 'exists:', fs.existsSync(staticPath));
+  // app.useStaticAssets(join(process.cwd(), 'public'));
   app.setBaseViewsDir(join(__dirname, '../src', 'views'));
   app.setViewEngine('ejs');
   const configService = app.get(ConfigService);
@@ -32,10 +35,10 @@ async function bootstrap() {
 
   //config cors
   app.enableCors({
-    "origin": "*",
+    "origin": true,
     "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
     "preflightContinue": false,
-    "optionsSuccessStatus": 204
+    credentials: true
   });
   await app.listen(configService.get<string>('PORT'));
 }
