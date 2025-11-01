@@ -4,10 +4,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import * as bcrypt from "bcryptjs";
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: SoftDeleteModel<UserDocument>) { }
+  constructor(@InjectModel(User.name) private userModel: SoftDeleteModel<UserDocument>,
+    private configService: ConfigService) { }
   hashPassword = (password: string) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
@@ -25,7 +27,8 @@ export class UsersService {
 
   async findOne(id: string) {
     try {
-      return await this.userModel.findById({ _id: id });
+      return await this.userModel.findById({ _id: id })
+        .populate({ path: "role", select: { _id: 1, name: 1 } });
     } catch (error) {
       return {
         error: error.message,
@@ -38,6 +41,7 @@ export class UsersService {
   async findOneByEmail(email: string) {
     try {
       return await this.userModel.findOne({ email })
+        .populate({ path: 'role', select: { name: 1, permissions: 1 } })
     } catch (error) {
       return null
     }
@@ -71,6 +75,10 @@ export class UsersService {
   }
 
   remove(id: string) {
+    const adminId = this.configService.get<string>('ROLE_ADMIN_ID');
+    if (id === adminId) {
+      throw new BadRequestException("Can't delete user admin")
+    }
     try {
       return this.userModel.softDelete({ _id: id });
     } catch (error) {

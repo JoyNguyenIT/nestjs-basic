@@ -2,6 +2,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 
+import { Role } from 'src/roles/schemas/role.schema';
+
 export type UserDocument = HydratedDocument<User>;
 
 @Schema({ timestamps: true })
@@ -24,8 +26,8 @@ export class User {
     @Prop()
     gender: string;
 
-    @Prop()
-    role: string;
+    @Prop({ type: Types.ObjectId, ref: Role.name })
+    role: Types.ObjectId
 
     @Prop()
     refresh_token: string;

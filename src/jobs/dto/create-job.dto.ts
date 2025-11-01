@@ -26,18 +26,18 @@ export class CreateJobDto {
 
 
 
-    location: string;
-    salary: number;
-    quantity: number;
-    level: string;
-    description: string;
-    isActive: boolean;
-    isDeleted: boolean;
-    deletedAt: Date;
+    // location: string;
+    // salary: number;
+    // quantity: number;
+    // level: string;
+    // description: string;
+    // isActive: boolean;
+    // isDeleted: boolean;
+    // deletedAt: Date;
 
-    startDate: Date
-    endDate: Date
-    logo: string
+    // startDate: Date
+    // endDate: Date
+    // logo: string
     @IsObject()
     @ValidateNested()
     @Type(() => Company)

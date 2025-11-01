@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsEmail, IsMongoId, IsNotEmpty, IsString, ValidateNested } from "class-validator";
+import { IsMongoId, IsNotEmpty, IsString, ValidateNested } from "class-validator";
 import { Types } from "mongoose";
 
 export class UpdatedByDto {
@@ -29,8 +29,6 @@ export class CreateResumeDto {
     @IsString({ message: "url is a string" })
     url: string;
 
-    @IsNotEmpty()
-    @IsString({ message: "status is a string" })
     status: string;
 
     @IsNotEmpty()
@@ -39,7 +37,7 @@ export class CreateResumeDto {
 
     @IsNotEmpty()
     @IsMongoId()
-    jobId: Types.ObjectId;
+    job: Types.ObjectId;
 
 
 }

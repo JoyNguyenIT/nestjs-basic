@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsObject, IsString, MaxLength, MinLength, ValidateNested } from 'class-validator';
+import { IsEmail, IsMongoId, IsNotEmpty, IsObject, IsString, MaxLength, MinLength, ValidateNested } from 'class-validator';
 import { Types } from 'mongoose';
 
 class Company {
@@ -61,8 +61,9 @@ export class CreateUserDto {
     @IsNotEmpty()
     password: string;
 
-
+    @IsMongoId()
     role: string;
+
     gender: string;
     address: string;
     phone: string;

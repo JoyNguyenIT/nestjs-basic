@@ -1,8 +1,8 @@
 
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, ObjectId, Types } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 import { Company } from 'src/companies/schemas/companies.schema';
-import { Job } from 'src/jobs/schemas/job.schema';
+import { Job } from 'src/jobs/schemas/jobs.schema';
 import { User } from 'src/users/schemas/user.schema';
 
 export type ResumeDocument = HydratedDocument<Resume>;
@@ -25,7 +25,7 @@ export class Resume {
     companyId: Types.ObjectId;
 
     @Prop({ type: Types.ObjectId, ref: Job.name })
-    jobId: Types.ObjectId;
+    job: Types.ObjectId;
 
     @Prop({ type: Types.Array })
     history: {

@@ -8,6 +8,6 @@ import { CompaniesService } from './companies.service';
   imports: [MongooseModule.forFeature([{ name: Company.name, schema: CompanySchema }])],
   controllers: [CompaniesController],
   providers: [CompaniesService],
-  exports: [CompaniesService]
+  exports: [CompaniesService, MongooseModule]
 })
 export class CompaniesModule { }

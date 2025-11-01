@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
+import { RolesService } from 'src/roles/roles.service';
 import { JwtService } from '@nestjs/jwt';
 import { IUser, IUserCreate } from 'src/users/users.interface';
 import { InjectModel } from '@nestjs/mongoose';
@@ -33,7 +34,9 @@ export class AuthService {
         const user = await this.usersService.findOneByEmail(username);
         if (user) {
             const isValid = await this.usersService.isValidPassword(pass, user.password)
-            if (isValid) return user
+            if (isValid === true) {
+                return user
+            }
             else throw new UnauthorizedException("Username/Password is not valid!")
         }
         else throw new UnauthorizedException("Username/Password is not valid!")
