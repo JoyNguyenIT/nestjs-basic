@@ -3,6 +3,7 @@ import { IsArray, IsBoolean, IsMongoId, IsNotEmpty, IsString } from "class-valid
 import { Types } from "mongoose";
 
 export class CreateRoleDto {
+
     @IsNotEmpty()
     @IsString({ message: "name is a string" })
     name: string;
